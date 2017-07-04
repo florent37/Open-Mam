@@ -23,7 +23,7 @@ it's built with open-source libraries, and has a material look & feel.
 To have an Android store, you can :
 - use the given application binary (link in this README), and link it to you own server
 or 
-- fork it, then modifying the `configuration.gradle` file to change his name, his colors and directly couple with your server
+- fork it, then modify the `configuration.gradle` file to change his name, his colors and directly couple with your server
 
 # Roadmap
 
