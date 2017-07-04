@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="appversion_header_height">200dp</dimen>
+    <dimen name="app_header_height">115dp</dimen>
+</resources>

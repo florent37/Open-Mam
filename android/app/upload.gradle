@@ -1,0 +1,47 @@
+android.applicationVariants.all { variant ->
+    buildConfigField "String", "MAM_SERVER_URL", "\""+project.mamServer+"\""
+    variant.outputs.each { output ->
+        def t = task("upload${variant.name.capitalize()}") << {
+            def apkFile = output.outputFile;
+            def applicationId = [variant.mergedFlavor.applicationId, variant.buildType.applicationIdSuffix].findAll().join()
+
+            println "uploading $applicationId : $apkFile.path"
+
+            def serverUrl = project.mamServer
+
+            def uri = "http://$serverUrl/api.php?method=upload"
+            uri = uri + '&package=' + applicationId
+            uri = uri + '&name=' + project.mapAppName
+            uri = uri + '&apkName=' + apkFile.name
+            uri = uri + '&code=' + android.defaultConfig.versionCode
+            uri = uri + '&version=' + android.defaultConfig.versionName
+
+            def url = new URL(uri)
+            def http = url.openConnection()
+
+            http.setDoOutput(true)
+            http.setRequestMethod('POST')
+            http.setRequestProperty('User-agent', 'gradle upload script')
+
+            def out = http.outputStream
+            def input = new FileInputStream(apkFile)
+
+            try {
+                byte[] buf = new byte[1024];
+                int len;
+                while((len=input.read(buf))>0){
+                    out.write(buf,0,len);
+                }
+                out.close();
+                input.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            def httpResponse = http.inputStream.text // read server response from it
+            println httpResponse
+        }
+        t.dependsOn "assemble${variant.name.capitalize()}"
+        t.group = "MAM"
+    }
+}

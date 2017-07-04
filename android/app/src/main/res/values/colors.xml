@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/md_green_500</color>
+    <color name="colorPrimaryDark">@color/md_green_800</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="cell_background">@color/md_grey_300</color>
+</resources>
